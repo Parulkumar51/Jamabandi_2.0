@@ -1,40 +1,595 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="HBA Studio - Award-winning architectural firm specializing in innovative design, 3D visualization, and sustainable solutions. Creating extraordinary spaces that inspire and endure." />
-    <meta name="keywords" content="architecture, design, 3D visualization, sustainable design, residential, commercial, HBA Studio" />
-    <meta name="author" content="HBA Studio" />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://hbastudio.com/" />
-    <meta property="og:title" content="HBA Studio - Architectural Excellence" />
-    <meta property="og:description" content="Award-winning architectural firm specializing in innovative design, 3D visualization, and sustainable solutions." />
-    <meta property="og:image" content="https://hbastudio.com/og-image.jpg" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haryana Jamabandi Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .calc-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .result-box {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 12px;
+            font-weight: 600;
+            color: #1e40af;
+        }
+        .share-item {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        input[type="number"]:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="header">
+        <h1 class="text-3xl font-bold mb-2">Haryana Jamabandi Calculator</h1>
+        <p class="text-blue-100">Complete Land Area Calculator with Kanal/Marla Units</p>
+    </div>
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://hbastudio.com/" />
-    <meta property="twitter:title" content="HBA Studio - Architectural Excellence" />
-    <meta property="twitter:description" content="Award-winning architectural firm specializing in innovative design, 3D visualization, and sustainable solutions." />
-    <meta property="twitter:image" content="https://hbastudio.com/og-image.jpg" />
+    <div class="container mx-auto px-4 max-w-6xl">
+        <!-- Section 1: Total Land Area Input -->
+        <div class="calc-section">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">📏 Total Land Area (Input)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Kanal</label>
+                    <input type="number" id="totalKanal" placeholder="Enter Kanal" min="0" step="0.01">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Marla</label>
+                    <input type="number" id="totalMarla" placeholder="Enter Marla" min="0" step="0.01">
+                </div>
+            </div>
+            <button class="btn-primary mt-4" onclick="calculateTotalLand()">Calculate Total Land</button>
+            <div id="totalLandResult" class="result-box" style="display: none;"></div>
+        </div>
 
-    <!-- Preconnect to external domains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://images.pexels.com" />
-    
-    <!-- DNS prefetch for performance -->
-    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="//images.pexels.com" />
-    
-    <title>HBA Studio - Architectural Excellence | 3D Visualization & Design</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+        <!-- Section 2: Share Calculation -->
+        <div class="calc-section">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">👥 Share Calculation</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Share Holder Name</label>
+                    <input type="text" id="shareName" placeholder="Enter name">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Fraction (e.g., 3/10)</label>
+                    <input type="text" id="shareFraction" placeholder="Enter fraction">
+                </div>
+                <div class="flex items-end">
+                    <button class="btn-primary w-full" onclick="addShare()">Add Share</button>
+                </div>
+            </div>
+            
+            <div id="sharesList" class="mb-4"></div>
+            
+            <div class="border-t pt-4">
+                <button class="btn-secondary" onclick="calculateAllShares()">Calculate All Shares</button>
+                <div id="totalSharesResult" class="result-box" style="display: none;"></div>
+            </div>
+        </div>
+
+        <!-- Section 3: Final Percentage Calculation -->
+        <div class="calc-section">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">📊 Final Share Percentage</h2>
+            <button class="btn-primary" onclick="calculateFinalPercentage()">Calculate Final Percentage</button>
+            <div id="finalPercentageResult" class="result-box" style="display: none;"></div>
+        </div>
+
+        <!-- Section 4: Independent Kanal/Marla Addition -->
+        <div class="calc-section">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">➕ Independent Kanal/Marla Addition</h2>
+            <div id="additionEntries">
+                <div class="addition-entry grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Kanal</label>
+                        <input type="number" class="addition-kanal" placeholder="Enter Kanal" min="0" step="0.01">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Marla</label>
+                        <input type="number" class="addition-marla" placeholder="Enter Marla" min="0" step="0.01">
+                    </div>
+                    <div class="flex items-end">
+                        <button class="btn-danger w-full" onclick="removeAdditionEntry(this)">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-4 mb-4">
+                <button class="btn-secondary" onclick="addAdditionEntry()">Add More Entry</button>
+                <button class="btn-primary" onclick="calculateAddition()">Calculate Total</button>
+            </div>
+            <div id="additionResult" class="result-box" style="display: none;"></div>
+        </div>
+
+        <!-- Section 5: Marla to Kanal Converter -->
+        <div class="calc-section">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">🔄 Marla to Kanal Converter</h2>
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                <p class="text-sm text-blue-800"><strong>Example:</strong> 696 Marla = 34 Kanal 16 Marla</p>
+                <p class="text-sm text-blue-600">Formula: 1 Kanal = 20 Marla</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Total Marla</label>
+                    <input type="number" id="marlaToConvert" placeholder="Enter total Marla (e.g., 696)" min="0" step="0.01">
+                </div>
+                <div class="flex items-end">
+                    <button class="btn-primary w-full" onclick="convertMarlaToKanal()">Convert to Kanal</button>
+                </div>
+            </div>
+            <div class="flex gap-2 mt-2">
+                <button class="btn-secondary text-sm" onclick="document.getElementById('marlaToConvert').value = '696'; convertMarlaToKanal();">Try Example (696)</button>
+                <button class="btn-secondary text-sm" onclick="document.getElementById('marlaToConvert').value = ''; document.getElementById('marlaConversionResult').style.display = 'none';">Clear</button>
+            </div>
+            <div id="marlaConversionResult" class="result-box" style="display: none;"></div>
+        </div>
+
+        <!-- Section 6: Fractional Addition/Subtraction -->
+        <div class="calc-section">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">🔢 Fractional Addition/Subtraction</h2>
+            <div id="fractionEntries">
+                <div class="fraction-entry grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Fraction</label>
+                        <input type="text" class="fraction-input" placeholder="e.g., 1/10">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Operation</label>
+                        <select class="fraction-operation w-full p-2 border border-gray-300 rounded">
+                            <option value="+">Addition (+)</option>
+                            <option value="-">Subtraction (-)</option>
+                        </select>
+                    </div>
+                    <div class="flex items-end">
+                        <button class="btn-danger w-full" onclick="removeFractionEntry(this)">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-4 mb-4">
+                <button class="btn-secondary" onclick="addFractionEntry()">Add More Entry</button>
+                <button class="btn-primary" onclick="calculateFractions()">Calculate Result</button>
+            </div>
+            <div id="fractionResult" class="result-box" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        let totalLandInMarla = 0;
+        let shares = [];
+
+        // Helper function to convert Kanal/Marla to total Marla
+        function convertToMarla(kanal, marla) {
+            return (kanal * 20) + marla;
+        }
+
+        // Helper function to convert total Marla back to Kanal/Marla
+        function convertFromMarla(totalMarla) {
+            const kanal = Math.floor(totalMarla / 20);
+            const marla = totalMarla % 20;
+            return { kanal, marla };
+        }
+
+        // Helper function to parse fractions
+        function parseFraction(fractionStr) {
+            const parts = fractionStr.split('/');
+            if (parts.length === 2) {
+                const numerator = parseInt(parts[0].trim());
+                const denominator = parseInt(parts[1].trim());
+                return { numerator, denominator, decimal: numerator / denominator };
+            }
+            return null;
+        }
+
+        // Calculate total land area
+        function calculateTotalLand() {
+            const kanal = parseFloat(document.getElementById('totalKanal').value) || 0;
+            const marla = parseFloat(document.getElementById('totalMarla').value) || 0;
+            
+            totalLandInMarla = convertToMarla(kanal, marla);
+            const result = convertFromMarla(totalLandInMarla);
+            
+            document.getElementById('totalLandResult').style.display = 'block';
+            document.getElementById('totalLandResult').innerHTML = `
+                <strong>Total Land Area:</strong> ${result.kanal} Kanal ${result.marla.toFixed(2)} Marla<br>
+                <strong>Total in Marla:</strong> ${totalLandInMarla.toFixed(2)} Marla
+            `;
+        }
+
+        // Add share
+        function addShare() {
+            const name = document.getElementById('shareName').value.trim();
+            const fractionStr = document.getElementById('shareFraction').value.trim();
+            
+            if (!name || !fractionStr) {
+                alert('Please enter both name and fraction');
+                return;
+            }
+            
+            const fraction = parseFraction(fractionStr);
+            if (!fraction) {
+                alert('Invalid fraction format. Use format like 3/10');
+                return;
+            }
+            
+            shares.push({
+                name: name,
+                fraction: fractionStr,
+                numerator: fraction.numerator,
+                denominator: fraction.denominator,
+                decimal: fraction.decimal
+            });
+            
+            updateSharesList();
+            
+            // Clear inputs
+            document.getElementById('shareName').value = '';
+            document.getElementById('shareFraction').value = '';
+        }
+
+        // Update shares list display
+        function updateSharesList() {
+            const sharesList = document.getElementById('sharesList');
+            sharesList.innerHTML = '';
+            
+            shares.forEach((share, index) => {
+                const shareDiv = document.createElement('div');
+                shareDiv.className = 'share-item';
+                shareDiv.innerHTML = `
+                    <div class="flex-1">
+                        <strong>${share.name}</strong> - ${share.fraction} (${(share.decimal * 100).toFixed(2)}%)
+                    </div>
+                    <button class="btn-danger ml-4" onclick="removeShare(${index})">Delete</button>
+                `;
+                sharesList.appendChild(shareDiv);
+            });
+        }
+
+        // Remove share
+        function removeShare(index) {
+            shares.splice(index, 1);
+            updateSharesList();
+        }
+
+        // Calculate all shares
+        function calculateAllShares() {
+            if (totalLandInMarla === 0) {
+                alert('Please calculate total land area first');
+                return;
+            }
+            
+            if (shares.length === 0) {
+                alert('Please add at least one share');
+                return;
+            }
+            
+            let totalSharesMarla = 0;
+            let shareDetails = '';
+            
+            shares.forEach((share, index) => {
+                const shareMarla = (share.numerator * totalLandInMarla) / share.denominator;
+                const shareKanalMarla = convertFromMarla(shareMarla);
+                totalSharesMarla += shareMarla;
+                
+                shareDetails += `${share.name}: ${shareKanalMarla.kanal} Kanal ${shareKanalMarla.marla.toFixed(2)} Marla (${shareMarla.toFixed(2)} Marla)<br>`;
+            });
+            
+            const totalSharesKanalMarla = convertFromMarla(totalSharesMarla);
+            
+            document.getElementById('totalSharesResult').style.display = 'block';
+            document.getElementById('totalSharesResult').innerHTML = `
+                <strong>Individual Shares:</strong><br>
+                ${shareDetails}
+                <hr style="margin: 10px 0;">
+                <strong>Total Shares:</strong> ${totalSharesKanalMarla.kanal} Kanal ${totalSharesKanalMarla.marla.toFixed(2)} Marla<br>
+                <strong>Total in Marla:</strong> ${totalSharesMarla.toFixed(2)} Marla
+            `;
+        }
+
+        // Calculate final percentage
+        function calculateFinalPercentage() {
+            if (totalLandInMarla === 0) {
+                alert('Please calculate total land area first');
+                return;
+            }
+            
+            if (shares.length === 0) {
+                alert('Please add shares first');
+                return;
+            }
+            
+            let totalSharesMarla = 0;
+            shares.forEach(share => {
+                const shareMarla = (share.numerator * totalLandInMarla) / share.denominator;
+                totalSharesMarla += shareMarla;
+            });
+            
+            const percentage = (totalSharesMarla / totalLandInMarla) * 100;
+            
+            document.getElementById('finalPercentageResult').style.display = 'block';
+            document.getElementById('finalPercentageResult').innerHTML = `
+                <strong>Final Calculation:</strong><br>
+                Total Shares: ${totalSharesMarla.toFixed(2)} Marla<br>
+                Total Land: ${totalLandInMarla.toFixed(2)} Marla<br>
+                <strong>Percentage: ${percentage.toFixed(2)}%</strong>
+            `;
+        }
+
+        // Add addition entry
+        function addAdditionEntry() {
+            const additionEntries = document.getElementById('additionEntries');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'addition-entry grid grid-cols-1 md:grid-cols-3 gap-4 mb-4';
+            newEntry.innerHTML = `
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Kanal</label>
+                    <input type="number" class="addition-kanal" placeholder="Enter Kanal" min="0" step="0.01">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Marla</label>
+                    <input type="number" class="addition-marla" placeholder="Enter Marla" min="0" step="0.01">
+                </div>
+                <div class="flex items-end">
+                    <button class="btn-danger w-full" onclick="removeAdditionEntry(this)">Remove</button>
+                </div>
+            `;
+            additionEntries.appendChild(newEntry);
+        }
+
+        // Remove addition entry
+        function removeAdditionEntry(button) {
+            const entries = document.querySelectorAll('.addition-entry');
+            if (entries.length > 1) {
+                button.closest('.addition-entry').remove();
+            } else {
+                alert('At least one entry is required');
+            }
+        }
+
+        // Calculate addition
+        function calculateAddition() {
+            const kanalInputs = document.querySelectorAll('.addition-kanal');
+            const marlaInputs = document.querySelectorAll('.addition-marla');
+            
+            let totalMarla = 0;
+            let calculations = '';
+            
+            for (let i = 0; i < kanalInputs.length; i++) {
+                const kanal = parseFloat(kanalInputs[i].value) || 0;
+                const marla = parseFloat(marlaInputs[i].value) || 0;
+                const entryMarla = convertToMarla(kanal, marla);
+                totalMarla += entryMarla;
+                
+                if (kanal > 0 || marla > 0) {
+                    calculations += `${kanal} Kanal ${marla} Marla = ${entryMarla} Marla<br>`;
+                }
+            }
+            
+            const result = convertFromMarla(totalMarla);
+            
+            document.getElementById('additionResult').style.display = 'block';
+            document.getElementById('additionResult').innerHTML = `
+                <strong>Individual Calculations:</strong><br>
+                ${calculations}
+                <hr style="margin: 10px 0;">
+                <strong>Total:</strong> ${result.kanal} Kanal ${result.marla.toFixed(2)} Marla<br>
+                <strong>Total in Marla:</strong> ${totalMarla.toFixed(2)} Marla
+            `;
+        }
+
+        // Add fraction entry
+        function addFractionEntry() {
+            const fractionEntries = document.getElementById('fractionEntries');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'fraction-entry grid grid-cols-1 md:grid-cols-3 gap-4 mb-4';
+            newEntry.innerHTML = `
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Fraction</label>
+                    <input type="text" class="fraction-input" placeholder="e.g., 1/10">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Operation</label>
+                    <select class="fraction-operation w-full p-2 border border-gray-300 rounded">
+                        <option value="+">Addition (+)</option>
+                        <option value="-">Subtraction (-)</option>
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button class="btn-danger w-full" onclick="removeFractionEntry(this)">Remove</button>
+                </div>
+            `;
+            fractionEntries.appendChild(newEntry);
+        }
+
+        // Remove fraction entry
+        function removeFractionEntry(button) {
+            const entries = document.querySelectorAll('.fraction-entry');
+            if (entries.length > 1) {
+                button.closest('.fraction-entry').remove();
+            } else {
+                alert('At least one entry is required');
+            }
+        }
+
+        // Convert Marla to Kanal
+        function convertMarlaToKanal() {
+            const totalMarla = parseFloat(document.getElementById('marlaToConvert').value) || 0;
+            
+            if (totalMarla <= 0) {
+                alert('Please enter a valid Marla value');
+                return;
+            }
+            
+            const result = convertFromMarla(totalMarla);
+            const exactKanal = totalMarla / 20;
+            
+            // Verification calculation
+            const verification = (result.kanal * 20) + result.marla;
+            
+            document.getElementById('marlaConversionResult').style.display = 'block';
+            document.getElementById('marlaConversionResult').innerHTML = `
+                <strong>Conversion Result:</strong><br>
+                Input: ${totalMarla} Marla<br>
+                <strong>Result:</strong> ${result.kanal} Kanal ${result.marla.toFixed(2)} Marla<br>
+                <strong>Exact Kanal:</strong> ${exactKanal.toFixed(4)} Kanal<br>
+                <hr style="margin: 10px 0;">
+                <strong>Calculation:</strong><br>
+                • ${totalMarla} ÷ 20 = ${exactKanal.toFixed(4)} Kanal<br>
+                • Kanal: ${result.kanal} (whole number part)<br>
+                • Remaining Marla: ${result.marla.toFixed(2)}<br>
+                <strong>Verification:</strong> ${result.kanal} × 20 + ${result.marla.toFixed(2)} = ${verification.toFixed(2)} Marla ✓
+            `;
+        }
+
+        // GCD function for fraction simplification
+        function gcd(a, b) {
+            return b === 0 ? a : gcd(b, a % b);
+        }
+
+        // Simplify fraction
+        function simplifyFraction(numerator, denominator) {
+            const divisor = gcd(Math.abs(numerator), Math.abs(denominator));
+            return {
+                numerator: numerator / divisor,
+                denominator: denominator / divisor
+            };
+        }
+
+        // Calculate fractions
+        function calculateFractions() {
+            const fractionInputs = document.querySelectorAll('.fraction-input');
+            const operationSelects = document.querySelectorAll('.fraction-operation');
+            
+            let resultNumerator = 0;
+            let resultDenominator = 1;
+            let calculations = '';
+            let isFirst = true;
+            
+            for (let i = 0; i < fractionInputs.length; i++) {
+                const fractionStr = fractionInputs[i].value.trim();
+                const operation = operationSelects[i].value;
+                
+                if (!fractionStr) continue;
+                
+                const fraction = parseFraction(fractionStr);
+                if (!fraction) {
+                    alert(`Invalid fraction format: ${fractionStr}`);
+                    return;
+                }
+                
+                if (isFirst) {
+                    resultNumerator = fraction.numerator;
+                    resultDenominator = fraction.denominator;
+                    calculations += `${fractionStr}`;
+                    isFirst = false;
+                } else {
+                    // Find common denominator
+                    const commonDenominator = resultDenominator * fraction.denominator;
+                    const adjustedResult = resultNumerator * fraction.denominator;
+                    const adjustedFraction = fraction.numerator * resultDenominator;
+                    
+                    if (operation === '+') {
+                        resultNumerator = adjustedResult + adjustedFraction;
+                        calculations += ` + ${fractionStr}`;
+                    } else {
+                        resultNumerator = adjustedResult - adjustedFraction;
+                        calculations += ` - ${fractionStr}`;
+                    }
+                    
+                    resultDenominator = commonDenominator;
+                }
+            }
+            
+            // Simplify the result
+            const simplified = simplifyFraction(resultNumerator, resultDenominator);
+            const decimal = simplified.numerator / simplified.denominator;
+            const percentage = decimal * 100;
+            
+            document.getElementById('fractionResult').style.display = 'block';
+            document.getElementById('fractionResult').innerHTML = `
+                <strong>Calculation:</strong> ${calculations}<br>
+                <strong>Result:</strong> ${simplified.numerator}/${simplified.denominator}<br>
+                <strong>Decimal:</strong> ${decimal.toFixed(4)}<br>
+                <strong>Percentage:</strong> ${percentage.toFixed(2)}%
+            `;
+        }
+
+        // Initialize with one entry for each section
+        document.addEventListener('DOMContentLoaded', function() {
+            // Already have one entry by default
+        });
+    </script>
+</body>
 </html>
